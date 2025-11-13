@@ -290,9 +290,9 @@ def dijkstra(graph: Dict[Any, Dict[Any, Any]], start: Any):
     """O(E log V) — Shortest path in weighted graph with non-negative edges."""
     distances = {node: float('inf') for node in graph}
     distances[start] = 0
-    pq = [(0.0, start)]
-    while pq:
-        current_distance, current_node = heapq.heappop(pq)
+    priority_queue = [(0.0, start)]
+    while priority_queue:
+        current_distance, current_node = heapq.heappop(priority_queue)
         if current_distance > distances[current_node]:
             continue
         for neighbor, weight in graph[current_node].items():
@@ -301,7 +301,7 @@ def dijkstra(graph: Dict[Any, Dict[Any, Any]], start: Any):
             distance: float = current_distance + weight
             if distance < distances[neighbor]:
                 distances[neighbor] = distance
-                heapq.heappush(pq, (distance, neighbor))
+                heapq.heappush(priority_queue, (distance, neighbor))
     return distances
 
 
@@ -309,14 +309,14 @@ def dijkstra(graph: Dict[Any, Dict[Any, Any]], start: Any):
 # 🧩 DYNAMIC PROGRAMMING
 # =========================================================
 
-def fibonacci_dp(n: int):
+def fibonacci_dp(number: int):
     """O(n) — Bottom-up DP example."""
-    if n <= 1:
-        return n
+    if number <= 1:
+        return number
     dp = [0, 1]
-    for i in range(2, n + 1):
+    for i in range(2, number + 1):
         dp.append(dp[i - 1] + dp[i - 2])
-    return dp[n]
+    return dp[number]
 
 
 def knapsack(weights: List[int], values: List[int], capacity: int):
