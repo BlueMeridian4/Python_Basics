@@ -136,7 +136,7 @@ If the problem mentions:
 -------------------------------------------------------------
 """
 
-from typing import List, Set, Any, Union
+from typing import List, Dict, Set, Tuple, Any, Union, Optional
 
 
 # =========================================================
@@ -260,11 +260,11 @@ class LinkedList:
 # 🧭 GRAPH ALGORITHMS (BFS / DFS / DIJKSTRA)
 # =========================================================
 
-from collections import deque, defaultdict
+from collections import deque
 import heapq
 
 
-def bfs(graph, start):
+def bfs(graph: Dict[Any, Set[Any]], start: Any):
     """O(V + E) — Level-order traversal, shortest path in unweighted graphs."""
     visited: Set[Any] = set()
     queue = deque([start])
@@ -276,7 +276,7 @@ def bfs(graph, start):
             queue.extend(graph[node] - visited)
 
 
-def dfs(graph, start, visited=None):
+def dfs(graph: Dict[Any, Set[Any]], start: Any, visited: Optional[Set[Any]] = None) -> None:
     """O(V + E) — Depth-first traversal, good for connectivity, cycle detection."""
     if visited is None:
         visited = set()
@@ -286,17 +286,19 @@ def dfs(graph, start, visited=None):
         dfs(graph, neighbor, visited)
 
 
-def dijkstra(graph, start):
+def dijkstra(graph: Dict[Any, Dict[Any, Any]], start: Any): 
     """O(E log V) — Shortest path in weighted graph with non-negative edges."""
     distances = {node: float('inf') for node in graph}
     distances[start] = 0
-    pq = [(0, start)]
+    pq = [(0.0, start)]
     while pq:
         current_distance, current_node = heapq.heappop(pq)
         if current_distance > distances[current_node]:
             continue
         for neighbor, weight in graph[current_node].items():
-            distance = current_distance + weight
+            neighbor: Any
+            weight: float
+            distance: float = current_distance + weight
             if distance < distances[neighbor]:
                 distances[neighbor] = distance
                 heapq.heappush(pq, (distance, neighbor))
@@ -307,7 +309,7 @@ def dijkstra(graph, start):
 # 🧩 DYNAMIC PROGRAMMING
 # =========================================================
 
-def fibonacci_dp(n):
+def fibonacci_dp(n: int):
     """O(n) — Bottom-up DP example."""
     if n <= 1:
         return n
@@ -317,7 +319,7 @@ def fibonacci_dp(n):
     return dp[n]
 
 
-def knapsack(weights, values, capacity):
+def knapsack(weights: List[int], values: List[int], capacity: int):
     """O(n*W) — Classic 0/1 Knapsack Problem (DP Table)."""
     n = len(values)
     dp = [[0 for _ in range(capacity + 1)] for _ in range(n + 1)]
@@ -334,11 +336,11 @@ def knapsack(weights, values, capacity):
 # 🧠 BACKTRACKING (e.g., N-Queens, Subset Generation)
 # =========================================================
 
-def subsets(nums):
+def subsets(nums: List[int]):
     """O(2^n) — Generate all subsets (useful for combinatorial search)."""
-    result = []
+    result: List[List[int]] = []
 
-    def backtrack(start, path):
+    def backtrack(start: int, path: List[int]):
         result.append(path[:])
         for i in range(start, len(nums)):
             path.append(nums[i])
@@ -353,32 +355,32 @@ def subsets(nums):
 # 🧱 COMMON DATA STRUCTURE UTILITIES
 # =========================================================
 
-def factorial(n):
+def factorial(number: int) -> int:
     """Simple recursion, O(n) — Use iterative for performance in large n."""
-    return 1 if n == 0 else n * factorial(n - 1)
+    return 1 if number == 0 else number * factorial(number - 1)
 
 
-def is_palindrome(s):
+def is_palindrome(string: str):
     """Check if string is palindrome."""
-    return s == s[::-1]
+    return string == string[::-1]
 
 
 # =========================================================
 # 🧰 UTILITIES & TEMPLATES
 # =========================================================
 
-def swap(a, b):
-    return b, a
+def swap(a_value: Any, b_value: Any) -> Tuple[Any, Any]:
+    return b_value, a_value
 
 
-def two_sum(nums, target):
+def two_sum(nums: List[int], target: int) -> List[Any]:
     """O(n) — Hash map pattern; very common interview problem."""
     seen = {}
-    for i, num in enumerate(nums):
-        complement = target - num
+    for index, number in enumerate(nums):
+        complement = target - number
         if complement in seen:
-            return [seen[complement], i]
-        seen[num] = i
+            return [seen[complement], index]
+        seen[number] = index
     return []
 
 
